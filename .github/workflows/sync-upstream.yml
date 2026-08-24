@@ -1,0 +1,26 @@
+name: sync-upstream
+on:
+  schedule:
+    - cron: "27 4 * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync from upstream
+        run: |
+          git config user.name sync-bot
+          git config user.email angzhiLiang@users.noreply.github.com
+          git remote add upstream https://github.com/pedronauck/skills.git
+          git fetch upstream main
+          rm -rf skills
+          git checkout upstream/main -- skills/mine/architectural-analysis skills/community/find-skills
+          mkdir -p skills
+          mv skills/mine/architectural-analysis skills/architectural-analysis
+          mv skills/community/find-skills skills/find-skills
+          rm -rf skills/mine skills/community
+          git add -A
+          git diff --cached --quiet || { git commit -m "sync upstream $(git rev-parse --short upstream/main)"; git push; }

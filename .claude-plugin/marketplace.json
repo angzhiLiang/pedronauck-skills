@@ -1,0 +1,6 @@
+{
+  "name": "pedronauck-skills",
+  "description": "Curated mirror of pedronauck/skills",
+  "owner": {"name": "angzhiLiang", "url": "https://github.com/angzhiLiang"},
+  "plugins": [{"name": "pedronauck-skills", "description": "architectural-analysis + find-skills", "source": "./"}]
+}
